@@ -1,6 +1,10 @@
 package com.andrewswint.projectmanagertool.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -9,13 +13,22 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Please provide a project name")
     private String projectName;
+    @NotBlank(message = "Please provide a project identifier between 4 and 5 characters")
+    @Size(min = 4, max = 5, message = "Identifier must be between 4 and 5 characters")
+    @Column(updatable = false, unique = true)
     private String projectIdentifier;
+    @NotBlank(message = "Please provide a description")
     private String description;
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date startDate;
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date endDate;
 
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date createdDate;
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updatedDate;
 
     public Project (){}
